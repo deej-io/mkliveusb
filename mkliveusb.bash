@@ -12,16 +12,16 @@ function check_sudo() {
 }
 
 function check_installed() {
-	local fail=0;
-
 	for cmd in "$@"; do
 		if [[ ! -x $(command -v $cmd) ]]; then
-			echo "the program $cmd is required but not installed..."
-			fail=1
+			local uninstalled="$uninstalled $cmd"
 		fi
 	done
 
-	if (( $fail )); then exit 1; fi
+	if [[ ! -z "$uninstalled" ]]; then
+		echo These required packages are not installed: $uninstalled
+		exit
+	fi
 }
 
 DEVICE="$1"
