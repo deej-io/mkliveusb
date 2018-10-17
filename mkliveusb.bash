@@ -81,6 +81,9 @@ mkfs.ext4 -L casper-rw /mnt/usb/casper-rw
 echo "Installing syslinux"
 syslinux -s $PARTITION
 
+echo "Installing grub for legacy BIOSs"
+grub-install --target=i386-pc --recheck --boot-directory=/mnt/usb/boot $DEVICE
+
 echo "Unmounting disks"
 umount /mnt/iso
 umount /mnt/usb
