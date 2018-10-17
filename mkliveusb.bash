@@ -70,8 +70,8 @@ echo "Syncing filesystems."
 sync &
 PID="$!"
 while kill -0 $PID >/dev/null 2>&1; do
-	sleep 2
 	printf "$(echo $(grep -e Dirty: -e Writeback: /proc/meminfo))\r\033[K"
+	sleep 1
 done;
 echo
 
