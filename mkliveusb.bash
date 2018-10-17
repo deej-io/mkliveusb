@@ -36,7 +36,7 @@ if [[ -z "$DEVICE" || -z $IMAGE ]]; then
 fi
 
 echo "Partitioning device"
-parted $DEVICE mklabel msdos 2> /dev/null
+parted $DEVICE mklabel msdos
 parted $DEVICE mkpart primary 0% 100% 2> /dev/null
 echo "Making device bootable"
 parted $DEVICE set 1 boot on 2> /dev/null
@@ -53,7 +53,7 @@ mkdir -p /mnt/iso
 mount $PARTITION /mnt/usb
 mount -o loop "$IMAGE" /mnt/iso
 
-echo "Copying contents of ISO to device..."
+echo "Copying contents of ISO to device"
 # mute stderr and return true as cannot copy symlinks
 cp -a /mnt/iso/. /mnt/usb > /dev/null 2>&1 || true
 
@@ -66,11 +66,11 @@ dd if=/dev/zero of=/mnt/usb/casper-rw bs=1M count=1024
 echo "Adding persistent flag to grub"
 sed -e 's/boot=casper/\0 persistent/g' -i /mnt/usb/boot/grub/grub.cfg
 
-echo "Syncing filesystems."
+echo "Syncing cached writes to device"
 sync &
 PID="$!"
 while kill -0 $PID >/dev/null 2>&1; do
-	printf "$(echo $(grep -e Dirty: -e Writeback: /proc/meminfo))\r\033[K"
+	printf "$(echo $(grep -e Dirty: -e Writeback: /proc/meminfo))\033[K\r"
 	sleep 1
 done;
 echo
