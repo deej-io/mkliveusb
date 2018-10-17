@@ -11,19 +11,6 @@ function check_sudo() {
 	fi
 }
 
-function check_continue() {
-	[[ -z "$1" ]] || echo "$1";
-
-	read -p  "Are you sure you wish to continue? [y/N] " -n 1 -r answer; echo
-
-	answer=${answer:-n}
-
-	if [[ $answer == "n" || $answer == "N" ]]; then
-		echo "Exiting..."
-		exit 0
-	fi
-}
-
 function check_installed() {
 	local fail=0;
 
@@ -47,8 +34,6 @@ if [[ -z "$DEVICE" || -z $IMAGE ]]; then
 	echo "USAGE: $0 /dev/sdX path/to/image.iso"
 	exit 1
 fi
-
-# check_continue "All data will be wiped from device $DEVICE."
 
 echo "Partitioning device"
 parted $DEVICE mklabel msdos 2> /dev/null
