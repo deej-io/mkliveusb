@@ -65,6 +65,8 @@ echo "Creating persistence file"
 dd if=/dev/zero of=/mnt/usb/casper-rw bs=10M count=205
 echo "Adding persistent flag to grub"
 sed -e 's/boot=casper/\0 persistent/g' -i /mnt/usb/boot/grub/grub.cfg
+echo "\"Fix\" acpi-related hang on shutdown"
+sed -e 's/splash/acpi=force/g' -i /mnt/usb/boot/grub/grub.cfg
 
 echo "Syncing cached writes to device"
 sync &
