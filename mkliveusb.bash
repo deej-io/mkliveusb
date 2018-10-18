@@ -62,7 +62,7 @@ mv /mnt/usb/isolinux /mnt/usb/syslinux
 mv /mnt/usb/syslinux/isolinux.cfg /mnt/usb/syslinux/syslinux.cfg
 
 echo "Creating persistence file"
-dd if=/dev/zero of=/mnt/usb/casper-rw bs=1M count=1024
+dd if=/dev/zero of=/mnt/usb/casper-rw bs=10M count=205
 echo "Adding persistent flag to grub"
 sed -e 's/boot=casper/\0 persistent/g' -i /mnt/usb/boot/grub/grub.cfg
 
