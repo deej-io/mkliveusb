@@ -27,13 +27,13 @@ function check_installed() {
 DEVICE="$1"
 IMAGE="$2"
 
-check_sudo
-check_installed parted syslinux mtools mkfs.vfat mkfs.ext4
-
 if [[ -z "$DEVICE" || -z $IMAGE ]]; then
-	echo "USAGE: $0 /dev/sdX path/to/image.iso"
+    echo "USAGE (root required): $0 /dev/sdX path/to/image.iso"
 	exit 1
 fi
+
+check_sudo
+check_installed parted syslinux mtools mkfs.vfat mkfs.ext4
 
 echo "Partitioning device"
 parted $DEVICE mklabel msdos
